@@ -36,6 +36,7 @@ func main() {
 	router := chi.NewRouter()
 
 	router.HandleFunc("/", web.Index)
+	router.HandleFunc("/create", web.Create)
 
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
