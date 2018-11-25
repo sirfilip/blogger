@@ -1,0 +1,17 @@
+{{ template "_header.html" . }}
+<form method="GET" action="/">
+	<input type="text" name="q" value="{{.Data.Q}}" />
+	<input type="submit" value="Search" />
+</form>
+<a href="/posts/create">Create Post</a>
+{{ range .Data.Posts }}
+
+<div class="post">
+	<h3>{{ .Title }}</h3>
+	<div class="post-content">
+		{{ .Body }}
+	</div>
+	<span>Author: <i>{{ .Author }}</i></span>
+</div>
+{{ end }}
+{{ template "_footer.html" . }}

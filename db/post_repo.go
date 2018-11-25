@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/blevesearch/bleve"
 	"github.com/boltdb/bolt"
 	uuid "github.com/satori/go.uuid"
 
@@ -16,13 +15,13 @@ var (
 )
 
 type PostRepo struct {
-	db    *bolt.DB
-	index *bleve.Index
+	db *bolt.DB
 }
 
 func (self *PostRepo) All(offset int, limit int) ([]*posts.Post, error) {
 	result := make([]*posts.Post, 0)
 	err := self.db.View(func(tx *bolt.Tx) error {
+		var err error
 		bucket := tx.Bucket(PostsBucket)
 
 		c := bucket.Cursor()
@@ -38,7 +37,7 @@ func (self *PostRepo) All(offset int, limit int) ([]*posts.Post, error) {
 				break
 			}
 			post := &posts.Post{}
-			err := json.Unmarshal(v, post)
+			err = json.Unmarshal(v, post)
 			if err != nil {
 				return err
 			}
@@ -49,12 +48,6 @@ func (self *PostRepo) All(offset int, limit int) ([]*posts.Post, error) {
 	if err != nil {
 		return nil, err
 	}
-	return result, nil
-}
-
-func (self *PostRepo) Search(query string, offset int, limit int) ([]*posts.Post, error) {
-	result := make([]*posts.Post, 0)
-
 	return result, nil
 }
 
@@ -124,4 +117,8 @@ func (self *PostRepo) Delete(post *posts.Post) error {
 		return nil
 	})
 	return err
+}
+
+func NewPostRepo(db *bolt.DB) posts.Repo {
+	return &PostRepo{db: db}
 }

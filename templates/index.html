@@ -1,0 +1,19 @@
+{{ template "_header.html" . }}
+<h2>Blogger</h2>
+<form method="GET" action="/">
+  <div class="form-group">
+    <input type="text" name="q" value="{{.Data.Q}}" class="form-control" />
+    <input type="submit" value="Search" />
+  </div>
+</form>
+{{ range .Data.Posts }}
+
+<div class="post">
+	<h3>{{ .Title }}</h3>
+	<div class="post-content">
+		{{ .Body }}
+	</div>
+	<span>Author: <i>{{ .Author }}</i></span>
+</div>
+{{ end }}
+{{ template "_footer.html" . }}
