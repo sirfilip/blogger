@@ -7,7 +7,7 @@
 {{ end }}
 
 <form method="POST" action="">
-
+  <input type="hidden" name="csrf" value="{{ .Data.Form.Csrf }}" />
   <div class="form-group">
     <label>Title</label>
     <input class="form-control" name="title" value="{{.Data.Form.Title}}" />
